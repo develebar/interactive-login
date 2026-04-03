@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <title>Fun Login</title>
+  <link rel="stylesheet" href="./styles.css" />
+</head>
+
+<body>
+  <main>
+    <div class="interactive-canvas">
+      <div class="eye"></div>
+
+    </div>
+  </main>
+</body>
+
+<script>
+  const eye = document.querySelector('.eye')
+  const body = document.querySelector('.interactive-canvas')
+
+  let targetX = 150, targetY = 50;
+  let currentX = 40, currentY = 40;
+
+  document.addEventListener('mousemove', (e) => {
+    const rect = body.getBoundingClientRect();
+    targetX = e.clientX - rect.left
+    targetY = e.clientY - rect.top
+
+    animate()
+  })
+
+  function animate() {
+    currentX += (targetX - currentX) * 0.1;
+    currentY += (targetY - currentY) * 0.1;
+
+    eye.style.left = currentX + 'px';
+    eye.style.top = currentY + 'px';
+
+    requestAnimationFrame(animar);
+  }
+
+  animate()
+</script>
+
+</html>

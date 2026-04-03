@@ -1,0 +1,37 @@
+*,
+body {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  background-color: #2b2b2b;
+}
+
+main {
+  min-height: 100vh;
+  min-width: 100vw;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.interactive-canvas {
+  width: 10rem;
+  height: 15rem;
+  position: relative;
+  background-color: #edcd00;
+  border-top-left-radius: 90px;
+  border-top-right-radius: 90px;
+}
+
+.eye {
+  width: 20px;
+  height: 20px;
+  background-color: white;
+  border-radius: 999px;
+  position: absolute;
+  top: 40px;
+  left: 40px;
+}
