@@ -10,38 +10,87 @@
 <body>
   <main>
     <div class="interactive-canvas">
-      <div class="eye"></div>
-
+      <div class="eye-container left">
+        <div class="eye left"></div>
+      </div>
+      <div class="eye-container right">
+        <div class="eye right"></div>
+      </div>
     </div>
+
   </main>
 </body>
 
 <script>
-  const eye = document.querySelector('.eye')
-  const body = document.querySelector('.interactive-canvas')
+  const eyeContainers = document.querySelectorAll('.eye-container')
+  const eyes = document.querySelectorAll('.eye')
 
-  let targetX = 150, targetY = 50;
-  let currentX = 40, currentY = 40;
+  const eyeStates = Array.from(eyeContainers).map((container) => ({
+    targetX: 0, targetY: 0,
+    currentX: 0, currentY: 0,
+  }))
+
+  const LERP_FACTOR = 0.06;
+  const EYE_SIZE = 20;
+  const PADDING = 4;
+  const RADIUS = 14;
+
+  document.addEventListener('click', (e) => {
+
+    eyes.forEach((eye, i) => {
+      eye.classList.toggle('eye-closed')
+    })
+
+  })
+
 
   document.addEventListener('mousemove', (e) => {
-    const rect = body.getBoundingClientRect();
-    targetX = e.clientX - rect.left
-    targetY = e.clientY - rect.top
 
-    animate()
+    eyeContainers.forEach((eyeContainer, i) => {
+      const rect = eyeContainer.getBoundingClientRect();
+
+      // center point of the container
+      const centerX = eyeContainer.offsetWidth / 2
+      const centerY = eyeContainer.offsetHeight / 2
+
+      // current mouse relative position
+      const mouseX = e.clientX - rect.left
+      const mouseY = e.clientY - rect.top
+
+      const dx = mouseX - centerX
+      const dy = mouseY - centerY
+
+      const distance = Math.sqrt(dx ** 2 + dy ** 2);
+
+      if (distance > RADIUS) {
+        eyeStates[i].targetX = centerX + (dx / distance) * RADIUS - EYE_SIZE / 2;
+        eyeStates[i].targetY = centerY + (dy / distance) * RADIUS - EYE_SIZE / 2;
+      } else {
+        eyeStates[i].targetX = centerX + dx - EYE_SIZE / 2;
+        eyeStates[i].targetY = centerY + dy - EYE_SIZE / 2;
+      }
+
+      animate()
+    })
+
   })
 
   function animate() {
-    currentX += (targetX - currentX) * 0.1;
-    currentY += (targetY - currentY) * 0.1;
 
-    eye.style.left = currentX + 'px';
-    eye.style.top = currentY + 'px';
+    eyeContainers.forEach((container, i) => {
+      const state = eyeStates[i]
+      const eye = container.querySelector('.eye');
 
-    requestAnimationFrame(animar);
+      state.currentX += (state.targetX - state.currentX) * LERP_FACTOR;
+      state.currentY += (state.targetY - state.currentY) * LERP_FACTOR;
+
+      eye.style.left = state.currentX + 'px';
+      eye.style.top = state.currentY + 'px';
+    })
+
+    requestAnimationFrame(animate);
   }
 
-  animate()
 </script>
 
 </html>

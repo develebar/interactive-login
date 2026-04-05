@@ -26,12 +26,36 @@ main {
   border-top-right-radius: 90px;
 }
 
+.eye-container {
+  position: absolute;
+  width: 55px;
+  height: 40px;
+
+}
+
 .eye {
   width: 20px;
   height: 20px;
   background-color: white;
   border-radius: 999px;
   position: absolute;
+}
+
+.right {
   top: 40px;
-  left: 40px;
+  right: 20px;
+}
+
+.left {
+  top: 40px;
+  left: 20px;
+}
+
+.eye-closed {
+  background-color: transparent;
+  border-top-left-radius: 90px;
+  border-top-right-radius: 90px;
+  border: 4px solid white;
+  border-top: none;
+  height: 10px;
 }
